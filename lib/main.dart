@@ -71,15 +71,27 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String googleApiKey = 'AIzaSyAVsku3_R5bbF-Vc9dt7fnZgu_iR1BYLUM';
+    String googleApiKey = '';
     String mapUrl =
-        'https://maps.googleapis.com/maps/api/staticmap?center=$_latitude,$_longitude&zoom=14&size=400x400&key=$googleApiKey';
-    if (_weather.isEmpty &&
-        _city.isEmpty &&
-        _iconUrl.isEmpty &&
-        _latitude.isEmpty &&
-        _longitude.isEmpty) {
-      return const CircularProgressIndicator();
+        'https://maps.googleapis.com/maps/api/staticmap?center=$_latitude,$_longitude&zoom=14&size=400x400&&maptype=roadmap&markers=color:red%7Clabel:A%7C$_latitude,$_longitude&key=$googleApiKey';
+    if (_iconUrl.isEmpty) {
+      return Center(
+        child: Container(
+            width: 100,
+            height: 100,
+            child: Column(
+              children: [
+                const CircularProgressIndicator(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Loading...",
+                  style: TextStyle(fontSize: 18),
+                )
+              ],
+            )),
+      );
     } else {
       return Scaffold(
           appBar: AppBar(
@@ -170,7 +182,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         child: Container(
                             padding: const EdgeInsets.only(left: 15),
                             child: Text(
-                              _city,
+                              _city.toUpperCase(),
                               style: const TextStyle(fontSize: 20),
                             )),
                       )
@@ -197,7 +209,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           child: Container(
                               padding: const EdgeInsets.only(left: 15),
                               child: Text(
-                                _weather,
+                                _weather.toUpperCase(),
                                 style: const TextStyle(fontSize: 20),
                               )),
                         ),
